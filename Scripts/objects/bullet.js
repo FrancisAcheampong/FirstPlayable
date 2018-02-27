@@ -12,41 +12,62 @@ var objects;
 (function (objects) {
     var Bullet = /** @class */ (function (_super) {
         __extends(Bullet, _super);
-        // Public Properties
         // Constructor
-        function Bullet(assetManager, x, y, angle, canvasTop, canvasLeft, canvasWidth, canvasHeight) {
+        function Bullet(assetManager, x, y, 
+        // angle:number, 
+        canvasTop, canvasLeft, canvasWidth, canvasHeight) {
             var _this = _super.call(this, assetManager, "bullet") || this;
             // Private Instance Variables
             _this.updateRate = 20;
             _this.angle = 0;
             _this.xCartesianActual = 0; // register the actual x vector o the line in cartesian plan
             _this.yCartesianActual = 0; // register the actual x vector o the line in cartesian plan
+            // Public Properties
+            _this.isFired = false;
             //Difining the object position on screen
             _this.x = x - _this.getBounds().width * 0.5;
             _this.y = y - _this.getBounds().height * 0.5;
-            // The angle of the line  on screen
-            _this.angle = angle;
+            // // The angle of the line  on screen
+            _this.angle = -1;
             _this.xCartesianActual = x;
             _this.yCartesianActual = y;
             _this.canvasLeft = canvasLeft;
             _this.canvasTop = canvasTop;
             _this.canvasWidth = canvasWidth;
             _this.canvasHeight = canvasHeight;
+            _this.isColliding = false;
+            _this.visible = false;
             return _this;
         }
         // Public Methods
+        Bullet.prototype.fire = function (x, y, angle) {
+            //Defining the object position on screen
+            this.x = x - this.getBounds().width * 0.5;
+            this.y = y - this.getBounds().height * 0.5;
+            this.setAngle(angle);
+            this.xCartesianActual = x;
+            this.yCartesianActual = y;
+            this.isColliding = false;
+            this.visible = true;
+            this.isFired = true;
+        };
+        Bullet.prototype.setAngle = function (angle) {
+            this.angle = this.absoluteAngle(angle);
+        };
         Bullet.prototype.updateCache = function () {
             this.move();
         };
         Bullet.prototype.move = function () {
-            this.x = this.nextCartesianX() - this.getBounds().width * 0.5;
-            this.y = this.nextCartesianY() - this.getBounds().height * 0.5;
-            this.CheckBounds();
+            if (this.isFired) {
+                this.x = this.nextCartesianX() - this.getBounds().width * 0.5;
+                this.y = this.nextCartesianY() - this.getBounds().height * 0.5;
+                this.CheckBounds();
+            }
         };
         // converts to Radians (the math functions cos() and sin() need an radian angle)
         Bullet.prototype.radians = function (_angle) {
-            var m = this.absoluteAngle(_angle) / 180 * Math.PI;
-            return this.absoluteAngle(_angle) / 180 * Math.PI;
+            var m = this.angle / 180 * Math.PI;
+            return this.angle / 180 * Math.PI;
         };
         // Converts angles with high values (above 360) 
         // to the range between 0 and 360
@@ -55,16 +76,13 @@ var objects;
         };
         // Checks which quadrant in a circle the referred angle belongs to
         // counter-clockwise
-        Bullet.prototype.quadrant = function (_angle) {
-            var absolute = this.absoluteAngle(_angle);
-            if (this.absoluteAngle(_angle) > 270)
-                return 4;
-            if (this.absoluteAngle(_angle) > 180)
-                return 3;
-            if (this.absoluteAngle(_angle) > 90)
-                return 2;
-            return 1;
-        };
+        // private quadrant(_angle:number): number{
+        //     let absolute : number = this.angle;
+        //     if(this.angle >270) return 4;
+        //     if(this.angle >180) return 3;
+        //     if(this.angle >90) return 2;
+        //     return 1;
+        // }
         // Based on the new x-axis value y-axis is recalculated
         Bullet.prototype.nextCartesianY = function () {
             this.nextCartesianX();
@@ -84,20 +102,31 @@ var objects;
         Bullet.prototype.CheckBounds = function () {
             // right boundary
             if (this.x >= 1500 - this.halfWidth) {
+                this.destroyBullet();
                 this.x = 1500 - this.halfWidth;
             }
             // left boundary
             if (this.x <= this.halfWidth) {
+                this.destroyBullet();
                 this.x = this.halfWidth;
             }
             // bottom boundary
             if (this.y >= 800 - this.halfHeight) {
+                this.destroyBullet();
                 this.y = 800 - this.halfHeight;
             }
             // top boundary
             if (this.y <= this.halfHeight) {
+                this.destroyBullet();
                 this.y = this.halfHeight;
             }
+        };
+        Bullet.prototype.destroyBullet = function () {
+            this.isFired = false;
+            this.isColliding = false;
+            this.visible = false;
+            this.x = -100;
+            this.y = -100;
         };
         return Bullet;
     }(objects.GameObject));

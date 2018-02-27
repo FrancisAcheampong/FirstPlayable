@@ -3,6 +3,7 @@ var objects;
     var Game = /** @class */ (function () {
         function Game() {
         }
+        Game.HighScore = 0;
         return Game;
     }());
     objects.Game = Game;

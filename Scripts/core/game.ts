@@ -1,7 +1,5 @@
 /// <reference path="_references.ts"/>
 
-// https://youtu.be/GZY7U4wn4v0?t=46m42s
-
 // IIFE - Immediately Invoked Function Expression
 (function(){
 
@@ -14,6 +12,7 @@
   let assetManifest: any[];
   let currentScene: objects.Scene;
   let currentState: number;
+  let keyboardManager: managers.Keyboard;
 
   assetManifest = [
     {id: "clickMeButton", src:"./Assets/images/clickMeButton.png"},
@@ -23,7 +22,8 @@
     {id: "bullet", src:"./Assets/images/blackball.png"},
     {id: "tank", src:"./Assets/images/smalltank.png"},
     {id: "enemy", src:"./Assets/images/enemy.png"},
-    {id: "terrain", src:"./Assets/images/sand_pitch.png"}
+    {id: "terrain", src:"./Assets/images/sand_pitch1800x1800.png"},
+    {id: "barrier", src:"./Assets/images/metal_tile.png"}
   ];
 
   // preloads assets
@@ -46,6 +46,9 @@
     objects.Game.stage = stage;
     objects.Game.currentScene = config.Scene.START;
     currentState = config.Scene.START;
+
+    keyboardManager = new managers.Keyboard();
+    objects.Game.keyboardManager = keyboardManager;
     Main();
   }
 

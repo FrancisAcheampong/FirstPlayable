@@ -2,6 +2,7 @@ module objects {
     export class Tank extends objects.GameObject {
       // private instance variables
       private assetManager : createjs.LoadQueue;
+      private fuelConsumeRate : number = 10; // 10 default
       // public properties
       public bulletsCounter : number =0;
       public nextBulletCounter : number =0;
@@ -38,6 +39,9 @@ module objects {
       // move the object to some new location
       public Move():void {
 
+        
+        
+        /* // Mouse Controls
         if(this.x != objects.Game.stage.mouseX){
           if(this.x < objects.Game.stage.mouseX)
           {
@@ -45,7 +49,7 @@ module objects {
           }else{
             this.rotation =270;
           }
-          this.x  = objects.Game.stage.mouseX;
+          //this.x  = objects.Game.stage.mouseX;
         }
         
         if(this.y != objects.Game.stage.mouseY){
@@ -57,7 +61,38 @@ module objects {
           }
           this.y = objects.Game.stage.mouseY;
         }
+        */
 
+        // Keyboard Controls
+        if(objects.Game.keyboardManager.moveLeft){
+          if(objects.Game.scoreBoard.Fuel > 0){
+            objects.Game.scoreBoard.Fuel -= this.fuelConsumeRate;
+            
+            this.x-=5;
+          }
+          this.rotation =270;
+        }
+        if(objects.Game.keyboardManager.moveRight){
+          if(objects.Game.scoreBoard.Fuel > 0){
+            objects.Game.scoreBoard.Fuel -= this.fuelConsumeRate;
+            this.x+=5;
+          }
+          this.rotation =90;
+        }
+        if(objects.Game.keyboardManager.moveBackward){
+          if(objects.Game.scoreBoard.Fuel > 0){
+            objects.Game.scoreBoard.Fuel -= this.fuelConsumeRate;
+            this.y+=5;
+          }
+          this.rotation =180;
+        }
+        if(objects.Game.keyboardManager.moveForward){
+          if(objects.Game.scoreBoard.Fuel > 0){
+            objects.Game.scoreBoard.Fuel -= this.fuelConsumeRate;
+            this.y-=5;
+          }
+          this.rotation =0;
+        }
         
 
       }

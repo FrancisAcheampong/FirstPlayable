@@ -15,6 +15,7 @@ var objects;
         // Constructor
         function Tank(assetManager, x, y) {
             var _this = _super.call(this, assetManager, "tank") || this;
+            _this.fuelConsumeRate = 10; // 10 default
             // public properties
             _this.bulletsCounter = 0;
             _this.nextBulletCounter = 0;
@@ -39,23 +40,55 @@ var objects;
         };
         // move the object to some new location
         Tank.prototype.Move = function () {
-            if (this.x != objects.Game.stage.mouseX) {
-                if (this.x < objects.Game.stage.mouseX) {
-                    this.rotation = 90;
-                }
-                else {
-                    this.rotation = 270;
-                }
-                this.x = objects.Game.stage.mouseX;
+            /* // Mouse Controls
+            if(this.x != objects.Game.stage.mouseX){
+              if(this.x < objects.Game.stage.mouseX)
+              {
+                this.rotation =90;
+              }else{
+                this.rotation =270;
+              }
+              //this.x  = objects.Game.stage.mouseX;
             }
-            if (this.y != objects.Game.stage.mouseY) {
-                if (this.y < objects.Game.stage.mouseY) {
-                    this.rotation = 180;
+            
+            if(this.y != objects.Game.stage.mouseY){
+              if(this.y < objects.Game.stage.mouseY)
+              {
+                this.rotation =180;
+              }else{
+                this.rotation =0;
+              }
+              this.y = objects.Game.stage.mouseY;
+            }
+            */
+            // Keyboard Controls
+            if (objects.Game.keyboardManager.moveLeft) {
+                if (objects.Game.scoreBoard.Fuel > 0) {
+                    objects.Game.scoreBoard.Fuel -= this.fuelConsumeRate;
+                    this.x -= 5;
                 }
-                else {
-                    this.rotation = 0;
+                this.rotation = 270;
+            }
+            if (objects.Game.keyboardManager.moveRight) {
+                if (objects.Game.scoreBoard.Fuel > 0) {
+                    objects.Game.scoreBoard.Fuel -= this.fuelConsumeRate;
+                    this.x += 5;
                 }
-                this.y = objects.Game.stage.mouseY;
+                this.rotation = 90;
+            }
+            if (objects.Game.keyboardManager.moveBackward) {
+                if (objects.Game.scoreBoard.Fuel > 0) {
+                    objects.Game.scoreBoard.Fuel -= this.fuelConsumeRate;
+                    this.y += 5;
+                }
+                this.rotation = 180;
+            }
+            if (objects.Game.keyboardManager.moveForward) {
+                if (objects.Game.scoreBoard.Fuel > 0) {
+                    objects.Game.scoreBoard.Fuel -= this.fuelConsumeRate;
+                    this.y -= 5;
+                }
+                this.rotation = 0;
             }
         };
         // check to see if some boundary has been passed

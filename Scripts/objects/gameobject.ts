@@ -46,7 +46,7 @@ module objects {
     }
 
     public Move():void {
-
+      
     }
   }
 }

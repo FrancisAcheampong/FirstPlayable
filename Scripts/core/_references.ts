@@ -2,17 +2,21 @@
 /// <reference path="../../Scripts/objects/label.ts"/>
 /// <reference path="../../Scripts/objects/button.ts"/>
 /// <reference path="../../Scripts/config/scene.ts"/>
+/// <reference path="../../Scripts/config/keys.ts"/>
 /// <reference path="../../Scripts/math/vec2.ts"/>
 /// <reference path="../../Scripts/objects/scene.ts"/>
 
 /// <reference path="../../Scripts/objects/gameobject.ts"/>
 
+/// <reference path="../../Scripts/managers/keyboard.ts"/>
+/// <reference path="../../Scripts/managers/scoreboard.ts"/>
 /// <reference path="../../Scripts/managers/collision.ts"/>
 
 /// <reference path="../../Scripts/objects/bullet.ts"/>
 /// <reference path="../../Scripts/objects/tank.ts"/>
 /// <reference path="../../Scripts/objects/enemy.ts"/>
 /// <reference path="../../Scripts/objects/terrain.ts"/>
+/// <reference path="../../Scripts/objects/barrier.ts"/>
 
 /// <reference path="../../Scripts/scenes/over.ts"/>
 /// <reference path="../../Scripts/scenes/play.ts"/>
